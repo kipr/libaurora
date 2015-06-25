@@ -55,7 +55,7 @@ int graphics_open(int width, int height)
     return false;
   }
 
-  if(daylite_node::ref().start())
+  if(!daylite_node::ref().start())
   {
     return false;
   }
