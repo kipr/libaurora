@@ -73,11 +73,11 @@ void RasterGraphicsBuffer::to_png(std::vector<uint8_t>& png_buffer) const
     throw std::bad_alloc();
   }
 
-  /* set the header
+  // set the header
   png_set_IHDR(rw.png_ptr
     , rw.info_ptr
-    , _width
-    , _height
+    , this->_width
+    , this->_height
     , bit_depth
     , PNG_COLOR_TYPE_RGB
     , PNG_INTERLACE_NONE
@@ -87,9 +87,9 @@ void RasterGraphicsBuffer::to_png(std::vector<uint8_t>& png_buffer) const
 
   // set rows
   std::vector<uint8_t*> rows;
-  for(uint32_t y = 0; y < _height; y++)
+  for(uint32_t y = 0; y < this->_height; y++)
   {
-    rows.push_back((uint8_t*)&_pixel_array[y * _width]);
+    rows.push_back((uint8_t*)&this->_pixel_array[y * this->_width]);
   }
   png_set_rows(rw.png_ptr, rw.info_ptr, &rows[0]);
 
@@ -97,19 +97,17 @@ void RasterGraphicsBuffer::to_png(std::vector<uint8_t>& png_buffer) const
   png_set_write_fn(rw.png_ptr
     , (png_voidp)&png_buffer
     , [](png_structp png_ptr, png_bytep data, png_size_t length)
-  {
-    std::vector<uint8_t>* png_buffer = (std::vector<uint8_t>*) png_get_io_ptr(png_ptr);
-    png_buffer->insert(png_buffer->end(), data, data + length);
-  }
-  , NULL);
-
+      {
+        std::vector<uint8_t>* png_buffer = (std::vector<uint8_t>*) png_get_io_ptr(png_ptr);
+        png_buffer->insert(png_buffer->end(), data, data + length);
+      }
+    , NULL);
 
   // write data
   if(setjmp(png_jmpbuf(rw.png_ptr)))
   {
     throw std::runtime_error("png_write_png");
   }
-  */
 
   png_write_png(rw.png_ptr, rw.info_ptr, PNG_TRANSFORM_IDENTITY, NULL);
 }
