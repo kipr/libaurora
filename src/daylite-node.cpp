@@ -1,6 +1,8 @@
 #include <cstring>
 #include <iostream>
 
+#include <daylite/spinner.hpp>
+
 #include "daylite-node.hpp"
 
 using namespace aurora;
@@ -68,6 +70,11 @@ bool daylite_node::start()
   }
 
   return true;
+}
+
+bool daylite_node::spin_once()
+{
+  return daylite::spinner::spin_once();
 }
 
 bool daylite_node::end()

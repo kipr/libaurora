@@ -93,6 +93,8 @@ void graphics_update()
   g_graphics_buffer->to_png(buffer);
 
   daylite_node::ref().publish_frame("PNG", buffer);
+
+  daylite_node::ref().spin_once();
 }
 
 void graphics_clear()

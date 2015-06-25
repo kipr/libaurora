@@ -26,6 +26,7 @@ namespace aurora
     daylite_node& operator=(daylite_node const &) = delete;
 
     bool start();
+    bool spin_once();
     bool end();
 
     void set_key_events_callback(key_events_callback_t cb) { _key_events_callback = cb; }
