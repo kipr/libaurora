@@ -2,6 +2,7 @@
 #define _AURORA_HPP_
 
 #include <functional>
+#include <memory>
 #include <unordered_set>
 #include <vector>
 
@@ -43,10 +44,10 @@ namespace aurora
     void key_events_callback(const bson_t* msg);
     void mouse_events_callback(const bson_t* msg);
 
-    daylite::node *_node;
-    daylite::publisher *_frame_pub;
-    daylite::subscriber *_key_events_sub;
-    daylite::subscriber *_mouse_events_sub;
+    std::shared_ptr<daylite::node> _node;
+    std::shared_ptr<daylite::publisher> _frame_pub;
+    std::shared_ptr<daylite::subscriber> _key_events_sub;
+    std::shared_ptr<daylite::subscriber> _mouse_events_sub;
 
     key_events_callback_t _key_events_callback;
     mouse_event_callback_t _mouse_event_callback;

@@ -11,8 +11,7 @@ using namespace daylite;
 daylite_node daylite_node::_instance;
 
 daylite_node::daylite_node()
-  : _node(nullptr)
-  , _frame_pub(nullptr)
+  : _frame_pub(nullptr)
 {
 }
 
@@ -79,29 +78,10 @@ bool daylite_node::spin_once()
 
 bool daylite_node::end()
 {
-  if(_key_events_sub && _node)
-  {
-    _node->destroy_subscriber(_key_events_sub);
-    _key_events_sub = nullptr;
-  }
-
-  if(_mouse_events_sub && _node)
-  {
-    _node->destroy_subscriber(_mouse_events_sub);
-    _mouse_events_sub = nullptr;
-  }
-
-  if(_frame_pub && _node)
-  {
-    _node->destroy_publisher(_frame_pub);
-    _frame_pub = nullptr;
-  }
-
-  if(_node)
-  {
-    node::destroy_node(_node);
-    _node = nullptr;
-  }
+  _key_events_sub.reset();
+  _mouse_events_sub.reset();
+  _frame_pub.reset();
+  _node.reset();
 
   return true;
 }
