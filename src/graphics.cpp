@@ -188,6 +188,7 @@ void graphics_line(int x1, int y1, int x2, int y2, int r, int g, int b)
 
 void graphics_circle(int cx, int cy, int radius, int r, int g, int b)
 {
+  if(radius == 0) return;
 
   cx /= 4;
   cy /= 4;
@@ -225,10 +226,13 @@ void graphics_circle(int cx, int cy, int radius, int r, int g, int b)
 
 void graphics_circle_fill(int cx, int cy, int radius, int r, int g, int b)
 {
+  if(radius == 0) return;
+
   const long c_squared = (long)radius * (long)radius;
 
-  for(int i = cx - radius; i < cx + radius; ++i) {
-    for(int j = cy - radius; j < cy + radius; ++j) {
+  for(int i = (cx > radius)? cx - radius : 0; i < cx + radius; ++i) {
+
+    for(int j = (cy > radius)? cy - radius : 0; j < cy + radius; ++j) {
       long dx = cx - i;
       dx *= dx;
 
@@ -272,6 +276,8 @@ void graphics_triangle(int x1, int y1, int x2, int y2, int x3, int y3, int r, in
 void graphics_triangle_fill(int x1, int y1, int x2, int y2, int x3, int y3, int r, int g, int b)
 {
   const double l = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+  if(l == 0) return;
+
   const double dx = (x2 - x1) / l;
   const double dy = (y2 - y1) / l;
 
