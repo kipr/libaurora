@@ -10,6 +10,7 @@
  */
 
 #include "compat.hpp"
+#include "graphics-characters.h"
 #include "graphics-key-code.h"
 
 #ifdef __cplusplus
