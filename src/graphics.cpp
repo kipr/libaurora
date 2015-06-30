@@ -37,14 +37,6 @@ namespace
   } g_key_state;
 
   std::unique_ptr<RasterGraphicsBuffer> g_graphics_buffer;
-
-  inline RGBPixel fromTrueColor(Encoding enc, const int _0, const int _1, const int _2)
-  {
-    switch(enc) {
-    case RGB: return RGBPixel(_0 / 255.0, _1 / 255.0, _2 / 255.0);
-    case BGR: return RGBPixel(_2 / 255.0, _1 / 255.0, _0 / 255.0);
-    }
-  }
 }
 
 int graphics_open(int width, int height)
@@ -154,7 +146,7 @@ void graphics_blit_region_enc(const unsigned char *data, Encoding enc, int sx, i
 
 void graphics_fill(int r, int g, int b)
 {
-  g_graphics_buffer->fill(fromTrueColor(RGB, r, g, b));
+  g_graphics_buffer->fill(RGBPixel(r, b, g));
 }
 
 void graphics_pixel(int x, int y, int r, int g, int b)
