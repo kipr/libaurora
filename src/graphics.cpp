@@ -153,6 +153,9 @@ void graphics_fill(int r, int g, int b)
 
 void graphics_pixel(int x, int y, int r, int g, int b)
 {
+  if(x < 0 || x >= g_width) return;
+  if(y < 0 || y >= g_height) return;
+
   g_graphics_buffer->set_pixel(x, y, RGBPixel(r, b, g));
 }
 
@@ -190,7 +193,7 @@ void graphics_line(int x1, int y1, int x2, int y2, int r, int g, int b)
 
 void graphics_circle(int cx, int cy, int radius, int r, int g, int b)
 {
-  if(radius == 0) return;
+  if(radius <= 0) return;
 
   cx /= 4;
   cy /= 4;
@@ -228,13 +231,13 @@ void graphics_circle(int cx, int cy, int radius, int r, int g, int b)
 
 void graphics_circle_fill(int cx, int cy, int radius, int r, int g, int b)
 {
-  if(radius == 0) return;
+  if(radius <= 0) return;
 
   const long c_squared = (long)radius * (long)radius;
 
-  for(int i = (cx > radius)? cx - radius : 0; i < cx + radius; ++i) {
+  for(int i = cx - radius; i < cx + radius; ++i) {
 
-    for(int j = (cy > radius)? cy - radius : 0; j < cy + radius; ++j) {
+    for(int j = cy - radius; j < cy + radius; ++j) {
       long dx = cx - i;
       dx *= dx;
 
