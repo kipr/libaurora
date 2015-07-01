@@ -37,6 +37,8 @@ namespace
   } g_key_state;
 
   std::unique_ptr<RasterGraphicsBuffer> g_graphics_buffer;
+  uint32_t g_width;
+  uint32_t g_height;
 }
 
 int graphics_open(int width, int height)
@@ -84,7 +86,7 @@ void graphics_update()
   std::vector<uint8_t> buffer;
   g_graphics_buffer->to_png(buffer);
 
-  daylite_node::ref().publish_frame("PNG", buffer);
+  daylite_node::ref().publish_frame("PNG", g_width, g_height, buffer);
 
   daylite_node::ref().spin_once();
 }
