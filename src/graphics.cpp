@@ -69,7 +69,17 @@ int graphics_open(int width, int height)
     g_mouse_state.button_down.right = right_down;
   });
 
-  g_graphics_buffer = std::make_unique<RasterGraphicsBuffer>(width, height);
+  try
+  {
+    g_graphics_buffer = std::make_unique<RasterGraphicsBuffer>(width, height);
+  }
+  catch(...)
+  {
+    return false;
+  }
+
+  g_width = width;
+  g_height = height;
 
   return true;
 }
