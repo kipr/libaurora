@@ -18,7 +18,11 @@ namespace aurora
   class daylite_node
   {
   public:
-    typedef std::function<void(uint32_t pos_x, uint32_t pos_y, bool left_down, bool middle_down, bool right_down)> mouse_event_callback_t;
+    typedef std::function < void(const int32_t *pos_x
+      , const int32_t *pos_y
+      , const bool *left_down
+      , const bool *middle_down
+      , const bool *right_down) > mouse_event_callback_t;
     typedef std::function<void(const std::unordered_set<KeyCode> &pressed_keys)> key_events_callback_t;
 
     static daylite_node &ref() { return _instance; }

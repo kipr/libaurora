@@ -59,14 +59,18 @@ int graphics_open(int width, int height)
     pressed_keys.swap(g_key_state.pressed);
   });
 
-  daylite_node::ref().set_mouse_event_callback([](uint32_t pos_x, uint32_t pos_y, bool left_down, bool middle_down, bool right_down)
+  daylite_node::ref().set_mouse_event_callback([](const int32_t *pos_x
+    , const int32_t *pos_y
+    , const bool *left_down
+    , const bool *middle_down
+    , const bool *right_down)
   {
-    g_mouse_state.pos.x = pos_x;
-    g_mouse_state.pos.y = pos_y;
+    if(pos_x) g_mouse_state.pos.x = *pos_x;
+    if(pos_y) g_mouse_state.pos.y = *pos_y;
 
-    g_mouse_state.button_down.left = left_down;
-    g_mouse_state.button_down.middle = middle_down;
-    g_mouse_state.button_down.right = right_down;
+    if(left_down) g_mouse_state.button_down.left = *left_down;
+    if(middle_down) g_mouse_state.button_down.middle = *middle_down;
+    if(right_down) g_mouse_state.button_down.right = *right_down;
   });
 
   try

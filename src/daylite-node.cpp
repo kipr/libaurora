@@ -193,41 +193,47 @@ void daylite_node::mouse_events_callback(const bson_t* msg)
    */
 
   int32_t pos_x, pos_y;
-  bool left_down, middle_down, right_down;
+  bool has_pos_x = false, has_pos_y = false;
+  bool left_button_down, middle_button_down, right_button_down;
+  bool has_left_button_down = false, has_middle_button_down = false, has_right_button_down = false;
   bson_iter_t it;
 
   // pos.x:
-  if(!(bson_iter_init(&it, msg) && get_int32_child(&it, "pos.x", pos_x)))
+  if(bson_iter_init(&it, msg) && get_int32_child(&it, "pos.x", pos_x))
   {
-    std::cerr << "Message has no 'pos.x' object" << std::endl;
+    has_pos_x = true;
   }
 
   // pos.y:
-  if(!(bson_iter_init(&it, msg) && get_int32_child(&it, "pos.y", pos_y)))
+  if(bson_iter_init(&it, msg) && get_int32_child(&it, "pos.y", pos_y))
   {
-    std::cerr << "Message has no 'pos.y' object" << std::endl;
+    has_pos_y = true;
   }
 
   // button_down.left
-  if(!(bson_iter_init(&it, msg) && get_bool_child(&it, "button_down.left", left_down)))
+  if(bson_iter_init(&it, msg) && get_bool_child(&it, "button_down.left", left_button_down))
   {
-    std::cerr << "Message has no 'buttons.left' object" << std::endl;
+    has_left_button_down = true;
   }
 
   // button_down.middle
-  if(!(bson_iter_init(&it, msg) && get_bool_child(&it, "button_down.middle", middle_down)))
+  if(bson_iter_init(&it, msg) && get_bool_child(&it, "button_down.middle", middle_button_down))
   {
-    std::cerr << "Message has no 'buttons.left' object" << std::endl;
+    has_middle_button_down = true;
   }
 
   // button_down.right
-  if(!(bson_iter_init(&it, msg) && get_bool_child(&it, "button_down.right", right_down)))
+  if(bson_iter_init(&it, msg) && get_bool_child(&it, "button_down.right", right_button_down))
   {
-    std::cerr << "Message has no 'buttons.left' object" << std::endl;
+    has_right_button_down = true;
   }
 
   if(_mouse_event_callback)
   {
-    _mouse_event_callback(pos_x, pos_y, left_down, middle_down, right_down);
+    _mouse_event_callback(has_pos_x ? &pos_x : nullptr
+      , has_pos_y? &pos_y : nullptr
+      , has_left_button_down ? &left_button_down : nullptr
+      , has_middle_button_down ? &middle_button_down : nullptr
+      , has_right_button_down ? &right_button_down : nullptr);
   }
 }
