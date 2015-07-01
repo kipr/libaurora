@@ -60,7 +60,7 @@ bool daylite_node::start()
   if(!(_mouse_events_sub = _node->subscribe("/aurora/mouse"
     , [](const bson_t* msg, void *usr_arg)
   {
-    static_cast<daylite_node*>(usr_arg)->key_events_callback(msg);
+    static_cast<daylite_node*>(usr_arg)->mouse_events_callback(msg);
   }
   , this)))
   {
