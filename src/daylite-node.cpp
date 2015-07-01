@@ -86,11 +86,16 @@ bool daylite_node::end()
   return true;
 }
 
-bool daylite_node::publish_frame(const char *type, const std::vector<uint8_t>& data)
+bool daylite_node::publish_frame(const char *type
+  , int32_t width
+  , int32_t height
+  , const std::vector<uint8_t>& data)
 {
   /* msg:
   *  {
   *    "type": <utf8>
+  *    "width": <int32>
+  *    "height": <int32>
   *    "data": <binary>
   *  }
   *
@@ -99,6 +104,8 @@ bool daylite_node::publish_frame(const char *type, const std::vector<uint8_t>& d
   bson_t doc;
   bson_init(&doc);
   BSON_APPEND_UTF8(&doc, "type", type);
+  BSON_APPEND_INT32(&doc, "width", width);
+  BSON_APPEND_INT32(&doc, "height", height);
   BSON_APPEND_BINARY(&doc, "data", BSON_SUBTYPE_BINARY, &data[0], data.size());
 
   return _frame_pub->publish(&doc);
