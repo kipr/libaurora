@@ -37,7 +37,7 @@ namespace aurora
     void set_key_events_callback(key_events_callback_t cb) { _key_events_callback = cb; }
     void set_mouse_event_callback(mouse_event_callback_t cb) { _mouse_event_callback = cb; }
 
-    bool publish_frame(const char *type
+    bool publish_frame(const char *format
       , int32_t width
       , int32_t height
       , const std::vector<uint8_t>& data);
