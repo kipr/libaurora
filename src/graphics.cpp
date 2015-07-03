@@ -33,10 +33,10 @@ namespace
 
   struct
   {
-    std::unordered_set<KeyCode> pressed;
+    unordered_set<KeyCode> pressed;
   } g_key_state;
 
-  std::unique_ptr<RasterGraphicsBuffer> g_graphics_buffer;
+  unique_ptr<RasterGraphicsBuffer> g_graphics_buffer;
   uint32_t g_width;
   uint32_t g_height;
 }
@@ -54,7 +54,7 @@ int graphics_open(int width, int height)
     return false;
   }
 
-  daylite_node::ref().set_key_events_callback([](std::unordered_set<KeyCode> pressed_keys)
+  daylite_node::ref().set_key_events_callback([](unordered_set<KeyCode> pressed_keys)
   {
     pressed_keys.swap(g_key_state.pressed);
   });
@@ -75,7 +75,7 @@ int graphics_open(int width, int height)
 
   try
   {
-    g_graphics_buffer = std::make_unique<RasterGraphicsBuffer>(width, height);
+    g_graphics_buffer = make_unique<RasterGraphicsBuffer>(width, height);
   }
   catch(...)
   {
@@ -97,7 +97,7 @@ void graphics_close()
 
 void graphics_update()
 {
-  std::vector<uint8_t> buffer;
+  vector<uint8_t> buffer;
   g_graphics_buffer->to_png(buffer);
 
   daylite_node::ref().publish_frame("PNG", g_width, g_height, buffer);

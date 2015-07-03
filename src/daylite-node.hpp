@@ -28,7 +28,7 @@ namespace aurora
     static daylite_node &ref() { return _instance; }
 
     daylite_node(const daylite_node &) = delete;
-    daylite_node& operator=(daylite_node const &) = delete;
+    daylite_node &operator=(daylite_node const &) = delete;
 
     bool start();
     bool spin_once();
@@ -48,8 +48,8 @@ namespace aurora
 
     static daylite_node _instance;
 
-    void key_events_callback(const bson_t* msg);
-    void mouse_events_callback(const bson_t* msg);
+    void key_events_callback(const bson_t *msg);
+    void mouse_events_callback(const bson_t *msg);
 
     std::shared_ptr<daylite::node> _node;
     std::shared_ptr<daylite::publisher> _frame_pub;

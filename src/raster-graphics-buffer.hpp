@@ -22,11 +22,11 @@ namespace aurora
   public:
     RasterGraphicsBuffer(uint32_t width, uint32_t height);
 
-    const RGBPixel& get_pixel(uint32_t col, uint32_t row) const;
-    void set_pixel(uint32_t col, uint32_t row, const RGBPixel& pixel);
-    void fill(const RGBPixel& color);
+    const RGBPixel &pixel(uint32_t col, uint32_t row) const;
+    void set_pixel(uint32_t col, uint32_t row, const RGBPixel &pixel);
+    void fill(const RGBPixel &color);
 
-    void to_png(std::vector<uint8_t>& png_buffer) const;
+    void to_png(std::vector<uint8_t> &png_buffer) const;
 
   private:
     uint32_t _width;

@@ -7,6 +7,7 @@
 
 using namespace aurora;
 using namespace daylite;
+using namespace std;
 
 daylite_node daylite_node::_instance;
 
@@ -24,47 +25,47 @@ bool daylite_node::start()
 {
   if(_node)
   {
-    std::cerr << "daylite_node is already initialized" << std::endl;
+    cerr << "daylite_node is already initialized" << endl;
     return false;
   }
 
   if(!(_node = node::create_node("aurora")))
   {
-    std::cerr << "node::create_node failed failed" << std::endl;
+    cerr << "node::create_node failed failed" << endl;
     return false;
   }
 
   if(!_node->start_gateway_service("127.0.0.1", 8374))
   {
-    std::cerr << "_node->start_gateway_service failed" << std::endl;
+    cerr << "_node->start_gateway_service failed" << endl;
     return false;
   }
 
   if(!(_frame_pub = _node->advertise("/aurora/frame")))
   {
-    std::cerr << "_node->subscribe('/aurora/frame') failed" << std::endl;
+    cerr << "_node->subscribe('/aurora/frame') failed" << endl;
     return false;
   }
 
   if(!(_key_events_sub = _node->subscribe("/aurora/key"
-    , [](const bson_t* msg, void *usr_arg)
+    , [](const bson_t *msg, void *usr_arg)
   {
     static_cast<daylite_node*>(usr_arg)->key_events_callback(msg);
   }
   , this)))
   {
-    std::cerr << "_node->subscribe('/aurora/key') failed" << std::endl;
+    cerr << "_node->subscribe('/aurora/key') failed" << endl;
     return false;
   }
 
   if(!(_mouse_events_sub = _node->subscribe("/aurora/mouse"
-    , [](const bson_t* msg, void *usr_arg)
+    , [](const bson_t *msg, void *usr_arg)
   {
     static_cast<daylite_node*>(usr_arg)->mouse_events_callback(msg);
   }
   , this)))
   {
-    std::cerr << "_node->subscribe('/aurora/mouse') failed" << std::endl;
+    cerr << "_node->subscribe('/aurora/mouse') failed" << endl;
     return false;
   }
 
@@ -89,7 +90,7 @@ bool daylite_node::end()
 bool daylite_node::publish_frame(const char *type
   , int32_t width
   , int32_t height
-  , const std::vector<uint8_t>& data)
+  , const vector<uint8_t> &data)
 {
   /* msg:
   *  {
@@ -111,7 +112,7 @@ bool daylite_node::publish_frame(const char *type
   return _frame_pub->publish(&doc);
 }
 
-void daylite_node::key_events_callback(const bson_t* msg)
+void daylite_node::key_events_callback(const bson_t *msg)
 {
   /* msg:
   *  {
@@ -120,7 +121,7 @@ void daylite_node::key_events_callback(const bson_t* msg)
   *
   */
 
-  std::unordered_set<KeyCode> pressed_keys;
+  unordered_set<KeyCode> pressed_keys;
 
   bson_iter_t it;
   bson_iter_t it_key_codes;
@@ -136,13 +137,13 @@ void daylite_node::key_events_callback(const bson_t* msg)
       }
       else
       {
-        std::cerr << "Found unexpected object in 'key_pressed'" << std::endl;
+        cerr << "Found unexpected object in 'key_pressed'" << endl;
       }
     }
   }
   else
   {
-    std::cerr << "Message has no 'key_pressed' object" << std::endl;
+    cerr << "Message has no 'key_pressed' object" << endl;
   }
 
   if(_key_events_callback)
@@ -151,7 +152,7 @@ void daylite_node::key_events_callback(const bson_t* msg)
   }
 }
 
-bool get_int32_child(bson_iter_t *it, const char *dotkey, /* out */ int32_t& value)
+bool get_int32_child(bson_iter_t *it, const char *dotkey, /* out */ int32_t &value)
 {
   bson_iter_t it_child;
   if(bson_iter_find_descendant(it, dotkey, &it_child) && BSON_ITER_HOLDS_INT32(&it_child))
@@ -163,7 +164,7 @@ bool get_int32_child(bson_iter_t *it, const char *dotkey, /* out */ int32_t& val
   return false;
 }
 
-bool get_bool_child(bson_iter_t *it, const char *dotkey, /* out */ bool& value)
+bool get_bool_child(bson_iter_t *it, const char *dotkey, /* out */ bool &value)
 {
   bson_iter_t it_child;
   if(bson_iter_find_descendant(it, dotkey, &it_child) && BSON_ITER_HOLDS_BOOL(&it_child))
@@ -175,7 +176,7 @@ bool get_bool_child(bson_iter_t *it, const char *dotkey, /* out */ bool& value)
   return false;
 }
 
-void daylite_node::mouse_events_callback(const bson_t* msg)
+void daylite_node::mouse_events_callback(const bson_t *msg)
 {
   /* msg:
    *  {
