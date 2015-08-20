@@ -93,8 +93,6 @@ int graphics_open(int width, int height)
   daylite_node::ref().spin_once();
   this_thread::sleep_for(chrono::milliseconds(200));
 
-  cerr << "test";
-
   return true;
 }
 
