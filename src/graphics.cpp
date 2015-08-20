@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <memory>
+#include <thread>
 #include <vector>
 
 #include "kipr/graphics.h"
@@ -85,11 +86,23 @@ int graphics_open(int width, int height)
   g_width = width;
   g_height = height;
 
+  // workaround to avoid missing graphics updates
+  this_thread::sleep_for(chrono::milliseconds(600));
+  daylite_node::ref().spin_once();
+  this_thread::sleep_for(chrono::milliseconds(200));
+  daylite_node::ref().spin_once();
+  this_thread::sleep_for(chrono::milliseconds(200));
+
+  cerr << "test";
+
   return true;
 }
 
 void graphics_close()
 {
+  // workaround to avoid missing graphics updates
+  this_thread::sleep_for(chrono::milliseconds(500));
+
   daylite_node::ref().end();
 
   g_graphics_buffer.release();
@@ -162,7 +175,7 @@ void graphics_blit_region_enc(const unsigned char *data, Encoding enc, int sx, i
 
 void graphics_fill(int r, int g, int b)
 {
-  g_graphics_buffer->fill(RGBPixel(r, b, g));
+  g_graphics_buffer->fill(RGBPixel(r, g, b));
 }
 
 void graphics_pixel(int x, int y, int r, int g, int b)
@@ -170,7 +183,7 @@ void graphics_pixel(int x, int y, int r, int g, int b)
   if(x < 0 || x >= g_width) return;
   if(y < 0 || y >= g_height) return;
 
-  g_graphics_buffer->set_pixel(x, y, RGBPixel(r, b, g));
+  g_graphics_buffer->set_pixel(x, y, RGBPixel(r, g, b));
 }
 
 void graphics_line(int x1, int y1, int x2, int y2, int r, int g, int b)
