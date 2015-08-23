@@ -114,6 +114,9 @@ void graphics_update()
   daylite_node::ref().publish_frame("PNG", g_width, g_height, buffer);
 
   daylite_node::ref().spin_once();
+
+  // wait 20ms to restrict the frame rate
+  this_thread::sleep_for(chrono::milliseconds(20));
 }
 
 void graphics_clear()

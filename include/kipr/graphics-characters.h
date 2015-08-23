@@ -54,6 +54,8 @@ extern "C" {
    * \ingroup graphics
    */
   AURORA_DLL_EXPORT void graphics_segmentDisplay(int s[], int x, int y, int r, int g, int b, float size);
+  AURORA_DLL_EXPORT void g_segmentDisplay(int s[], int x, int y, int r, int g, int b, float size);
+
 
   /**
    * Prints out a character in 16 segment characters
@@ -68,6 +70,8 @@ extern "C" {
    * \ingroup graphics
    */
   AURORA_DLL_EXPORT void graphics_printCharacter(int n, int x, int y, int r, int g, int b, float size);
+  AURORA_DLL_EXPORT void g_printCharacter(int n, int x, int y, int r, int g, int b, float size);
+
 
   /**
    * Prints out a text string in 16 segment characters
@@ -82,6 +86,8 @@ extern "C" {
    * \ingroup graphics
    */
   AURORA_DLL_EXPORT void graphics_printString(char s[], int x, int y, int r, int g, int b, float size);
+  AURORA_DLL_EXPORT void g_printString(char s[], int x, int y, int r, int g, int b, float size);
+
 
   /**
    * Prints out an integer in 16 segment characters
@@ -97,6 +103,8 @@ extern "C" {
    * \ingroup graphics
    */
   AURORA_DLL_EXPORT int graphics_printInt(int n, int minNumDigits, int x, int y, int r, int g, int b, float size);
+  AURORA_DLL_EXPORT int g_printInt(int n, int minNumDigits, int x, int y, int r, int g, int b, float size);
+
 
   /**
    * Prints out a float in 16 segment characters
@@ -112,6 +120,8 @@ extern "C" {
    * \ingroup graphics
    */
   AURORA_DLL_EXPORT void graphics_printFloat(float n, int numDigits, int x, int y, int r, int g, int b, float size);
+  AURORA_DLL_EXPORT void g_printFloat(float n, int numDigits, int x, int y, int r, int g, int b, float size);
+
 
 #ifdef __cplusplus
 }
