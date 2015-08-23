@@ -13,6 +13,8 @@
 #include "graphics-characters.h"
 #include "graphics-key-code.h"
 
+#include "util.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
