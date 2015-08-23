@@ -38,6 +38,11 @@ int __bold=0;
 #define BOLD __bold=1;
 #define NOBOLD __bold=0;
 
+void g_printString(char s[], int x, int y, int r, int g, int b, float size)
+{
+  graphics_printString(s, x, y, r, g, b, size);
+}
+
 void graphics_printString(char s[], int x, int y, int r, int g, int b, float size)
 {
 	int i,l;
@@ -45,6 +50,11 @@ void graphics_printString(char s[], int x, int y, int r, int g, int b, float siz
 	for(i=0;i<l;i++) {
     graphics_printCharacter(s[i], x + i*size*SEGSP, y, r, g, b, size);
 	}
+}
+
+int g_printInt(int n, int minNumDigits, int x, int y, int r, int g, int b, float size)
+{
+  return graphics_printInt(n, minNumDigits, x, y, r, g, b, size);
 }
 
 int graphics_printInt(int n, int minNumDigits, int x, int y, int r, int g, int b, float size)
@@ -73,6 +83,12 @@ int graphics_printInt(int n, int minNumDigits, int x, int y, int r, int g, int b
 	return(count);
 }
 
+
+void g_printFloat(float n, int numDigits, int x, int y, int r, int g, int b, float size)
+{
+  graphics_printInt(n, numDigits, x, y, r, g, b, size);
+}
+
 void graphics_printFloat(float n, int numDigits, int x, int y, int r, int g, int b, float size)
 {
 	int whole, frac, offset;
@@ -89,6 +105,11 @@ void graphics_printFloat(float n, int numDigits, int x, int y, int r, int g, int
 	}
   graphics_printCharacter('.', x + offset*SEGSP*size, y, r, g, b, size);
   graphics_printInt(frac, numDigits, x + (offset + 1)*SEGSP*size, y, r, g, b, size);
+}
+
+void g_printCharacter(int n, int x, int y, int r, int g, int b, float size)
+{
+  graphics_printCharacter(n, x, y, r, g, b, size);
 }
 
 void graphics_printCharacter(int n, int x, int y, int r, int g, int b, float size)
@@ -381,6 +402,11 @@ void graphics_printCharacter(int n, int x, int y, int r, int g, int b, float siz
                        /
                 	  / (19)
 */
+void g_segmentDisplay(int s[], int x, int y, int r, int g, int b, float size)
+{
+  graphics_segmentDisplay(s, x, y, r, g, b, size);
+}
+
 void graphics_segmentDisplay(int s[], int x, int y, int r, int g, int b, float size)
 {
 	int segmap[NUMSEG][2][2]={
