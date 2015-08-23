@@ -220,9 +220,6 @@ void graphics_circle(int cx, int cy, int radius, int r, int g, int b)
 {
   if(radius <= 0) return;
 
-  cx /= 4;
-  cy /= 4;
-
   int f = 1 - radius;
   int ddF_x = 0;
   int ddF_y = -2 * radius;
@@ -313,8 +310,10 @@ void graphics_triangle_fill(int x1, int y1, int x2, int y2, int x3, int y3, int 
 
   for(int i = 0; i <= l; ++i)
   {
+    graphics_line(x3, y3, x1 + ceil(i * dx), y1 + i * dy, r, g, b);
+    graphics_line(x3, y3, x1 + i * dx, y1 + ceil(i * dy), r, g, b);
     graphics_line(x3, y3, x1 + i * dx, y1 + i * dy, r, g, b);
-    graphics_line(x3, y3, x1 + ceil(l*dx - i * dx), y1 + ceil(l*dy - i * dy), r, g, b);
+    graphics_line(x3, y3, x1 + ceil(i * dx), y1 + ceil(i * dy), r, g, b);
   }
 }
 
