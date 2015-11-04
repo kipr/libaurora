@@ -305,18 +305,64 @@ void graphics_triangle(int x1, int y1, int x2, int y2, int x3, int y3, int r, in
 
 void graphics_triangle_fill(int x1, int y1, int x2, int y2, int x3, int y3, int r, int g, int b)
 {
-  const double l = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
-  if(l == 0) return;
+  int x[3], y[3], i, j;
+  double m[3], by[3];
 
-  const double dx = (x2 - x1) / l;
-  const double dy = (y2 - y1) / l;
-
-  for(int i = 0; i <= l; ++i)
-  {
-    graphics_line(x3, y3, x1 + ceil(i * dx), y1 + i * dy, r, g, b);
-    graphics_line(x3, y3, x1 + i * dx, y1 + ceil(i * dy), r, g, b);
-    graphics_line(x3, y3, x1 + i * dx, y1 + i * dy, r, g, b);
-    graphics_line(x3, y3, x1 + ceil(i * dx), y1 + ceil(i * dy), r, g, b);
+  if(x1 <= x2){
+    if(x1 <= x3){// x1 is smallest
+      x[0] = x1; y[0] = x1;
+      if(x2 <= x3){// x2 is middle
+        x[1] = x2; y[1] = y2; x[2] = x3; y[2] = y3;
+      }
+      else{//x3 is middle
+        x[1] = x3; y[1] = y3; x[2] = x2; y[2] = y2;
+      }
+    }
+    else{// x3<x1<x2
+      x[0] = x3; y[0] = y3; x[1] = x1; y[1] = y1; x[2] = x2; y[2] = y2;
+    }
+  }
+  else{// x2<x1
+    if(x3 <= x2){// x3<x2<x1
+      x[0] = x3; y[0] = y3; x[1] = x2; y[1] = y2; x[2] = x1; y[2] = y1;
+    }
+    else{//x2<x1, x2<x3
+      x[0] = x2; y[0] = y2;
+      if(x1 <= x3){// x2<x1<x3
+        x[1] = x1; y[1] = y1; x[2] = x3; y[2] = y3;
+      }
+      else{// x2<x3<x1
+        x[1] = x3; y[1] = y3; x[2] = x1; y[2] = y1;
+      }
+    }
+  }
+  for(i = 0; i<3; i++){//p0,p1 m0; p1,p2 m1; p2,p0, m2
+    m[i] = (double)(y[(i + 1) % 3] - y[i]) / (x[(i + 1) % 3] - x[i]); //slope
+    by[i] = (double)y[i] - m[i] * x[i];
+  }
+  if(y[1]<(m[2] * x[1] + by[2])){// p0,p1 is below p0,p2
+    for(i = x[0]; i <= x[1]; i++){
+      for(j = m[0] * i + by[0]; j <= m[2] * i + by[2]; j++){
+        graphics_pixel(i, j, r, g, b);
+      }
+    }
+    for(i = x[1]; i <= x[2]; i++){
+      for(j = m[1] * i + by[1]; j <= m[2] * i + by[2]; j++){
+        graphics_pixel(i, j, r, g, b);
+      }
+    }
+  }
+  else{ //p0,p1 is above p0,p2
+    for(i = x[0]; i <= x[1]; i++){
+      for(j = m[0] * i + by[0]; j >= m[2] * i + by[2]; j--){
+        graphics_pixel(i, j, r, g, b);
+      }
+    }
+    for(i = x[1]; i <= x[2]; i++){
+      for(j = m[1] * i + by[1]; j >= m[2] * i + by[2]; j--){
+        graphics_pixel(i, j, r, g, b);
+      }
+    }
   }
 }
 
