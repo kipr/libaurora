@@ -310,7 +310,7 @@ void graphics_triangle_fill(int x1, int y1, int x2, int y2, int x3, int y3, int 
 
   if(x1 <= x2){
     if(x1 <= x3){// x1 is smallest
-      x[0] = x1; y[0] = x1;
+      x[0] = x1; y[0] = y1;
       if(x2 <= x3){// x2 is middle
         x[1] = x2; y[1] = y2; x[2] = x3; y[2] = y3;
       }
