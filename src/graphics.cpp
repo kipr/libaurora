@@ -337,7 +337,10 @@ void graphics_triangle_fill(int x1, int y1, int x2, int y2, int x3, int y3, int 
     }
   }
   for(i = 0; i<3; i++){//p0,p1 m0; p1,p2 m1; p2,p0, m2
-    m[i] = (double)(y[(i + 1) % 3] - y[i]) / (x[(i + 1) % 3] - x[i]); //slope
+    if(x[(i + 1) % 3] == x[i])
+        m[i]=(double)(y[(i+1)%3]-y[i])/1.0E-5;
+    else
+      m[i] = (double)(y[(i + 1) % 3] - y[i]) / (x[(i + 1) % 3] - x[i]); //slope
     by[i] = (double)y[i] - m[i] * x[i];
   }
   if(y[1]<(m[2] * x[1] + by[2])){// p0,p1 is below p0,p2
