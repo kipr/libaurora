@@ -35,9 +35,9 @@ bool daylite_node::start()
     return false;
   }
 
-  if(!_node->start_gateway_service("127.0.0.1", 8374))
+  if(!_node->start("127.0.0.1", 8374))
   {
-    cerr << "_node->start_gateway_service failed" << endl;
+    cerr << "_node->start failed" << endl;
     return false;
   }
 
