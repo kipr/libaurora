@@ -6,8 +6,23 @@ project(libaurora)
 
 cmake_minimum_required(VERSION 2.8.0)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake") 
+find_package(Daylite REQUIRED)
+find_package(BsonBind REQUIRED)
+
 set(INCLUDE ${libaurora_SOURCE_DIR}/include)
 set(SRC ${libaurora_SOURCE_DIR}/src)
+
+add_bson_binds(BSON_BIND_INCLUDES
+               msg/aurora_frame.bsonbind
+               msg/aurora_mouse.bsonbind
+               msg/aurora_key.bsonbind)
+
+SET(BSON_BIND_INCLUDES_TMP "")
+FOREACH(f ${BSON_BIND_INCLUDES})
+  LIST(APPEND BSON_BIND_INCLUDES_TMP "${CMAKE_CURRENT_BINARY_DIR}/${f}")
+ENDFOREACH(f)
+SET(BSON_BIND_INCLUDES ${BSON_BIND_INCLUDES_TMP})
 
 file(GLOB INCLUDES ${INCLUDE}/kipr/*.h ${INCLUDE}/kipr/*.hpp)
 file(GLOB SOURCES ${SRC}/*)
@@ -33,29 +48,15 @@ else()
   find_package(PNG REQUIRED)
 endif()
 
-if(WIN32)
-  find_file(DAYLITE_DLL daylite.dll PATHS "${PROJECT_SOURCE_DIR}/../prefix/usr/bin")
-  find_path(DAYLITE_INCLUDE_DIR daylite PATHS "${PROJECT_SOURCE_DIR}/../prefix/usr/include")
-  find_library(DAYLITE_LIBRARY daylite.lib PATHS "${PROJECT_SOURCE_DIR}/../prefix/usr/lib")
-elseif(APPLE)
-  find_path(DAYLITE_INCLUDE_DIR daylite)
-  find_library(DAYLITE_LIBRARY daylite)
-endif()
-
-if(WIN32)
-  find_file(LIBBSON_DLL libbson-1.0.dll PATHS "${PROJECT_SOURCE_DIR}/../prefix/usr/bin")
-  find_path(LIBBSON_INCLUDE_DIR bson.h PATHS "${PROJECT_SOURCE_DIR}/../prefix/usr/include/libbson-1.0")
-  find_library(LIBBSON_LIBRARY bson-1.0.lib PATHS "${PROJECT_SOURCE_DIR}/../prefix/usr/lib")
-else()
-  find_path(LIBBSON_INCLUDE_DIR bson.h)
-  find_library(LIBBSON_LIBRARY bson-1.0)
-endif()
-
 ################################################################################
 #   Include/link directories                                                   #
 ################################################################################
 
-include_directories(${INCLUDE} ${PNG_INCLUDE_DIR} ${DAYLITE_INCLUDE_DIR} ${LIBBSON_INCLUDE_DIR})
+include_directories(${INCLUDE}
+                    ${PNG_INCLUDE_DIR}
+                    ${DAYLITE_INCLUDE_DIR}
+                    ${BSON_INCLUDE_DIR}
+                    ${CMAKE_CURRENT_BINARY_DIR})
 
 if(WIN32)
   set(LIBRARIES ws2_32.lib Mswsock.lib AdvApi32.lib)
@@ -64,8 +65,8 @@ endif()
 ################################################################################
 #   Targets                                                                    #
 ################################################################################
-add_library(aurora SHARED ${SOURCES} ${INCLUDES})
-target_link_libraries(aurora ${PNG_LIBRARY} ${DAYLITE_LIBRARY} ${LIBRARIES} ${LIBBSON_LIBRARY})
+add_library(aurora SHARED ${SOURCES} ${INCLUDES} ${BSON_BIND_INCLUDES})
+target_link_libraries(aurora ${PNG_LIBRARY} ${DAYLITE_LIBRARY} ${LIBRARIES} ${BSON_LIBRARY})
 
 # for the dllimport/dllexport switch
 set_target_properties(aurora PROPERTIES COMPILE_FLAGS -DBUILD_AURORA_DLL)
@@ -75,6 +76,7 @@ set_target_properties(aurora PROPERTIES COMPILE_FLAGS -DBUILD_AURORA_DLL)
 ################################################################################
 
 install(FILES ${INCLUDES} DESTINATION include/kipr)
+install(FILES ${BSON_BIND_INCLUDES} DESTINATION include)
 
 if(WIN32)
   install(TARGETS aurora

@@ -1,0 +1,2 @@
+%package aurora
+uint8[] key_pressed!

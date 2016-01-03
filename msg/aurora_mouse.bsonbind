@@ -1,0 +1,7 @@
+%package aurora
+int32 pos_x
+int32 pos_y
+
+bool left_button_down
+bool middle_button_down
+bool right_button_down

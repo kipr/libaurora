@@ -1,0 +1,5 @@
+%package aurora
+string format!
+int32 width!
+int32 height!
+uint8[] data!
