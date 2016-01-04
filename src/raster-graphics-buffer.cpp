@@ -2,6 +2,8 @@
 #include <cstdlib>
 
 #include <png.h>
+#include <stdexcept>
+
 
 #include "raster-graphics-buffer.hpp"
 

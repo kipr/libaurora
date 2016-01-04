@@ -130,6 +130,16 @@ extern "C" {
 
 #ifdef __cplusplus
 }
+
+#include <functional>
+template<>
+struct std::hash<KeyCode>
+{
+  size_t operator()(const KeyCode &code)
+  {
+    return code;
+  }
+};
 #endif
 
 #endif
