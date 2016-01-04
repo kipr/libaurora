@@ -75,8 +75,8 @@ set_target_properties(aurora PROPERTIES COMPILE_FLAGS -DBUILD_AURORA_DLL)
 #   Install                                                                    #
 ################################################################################
 
-install(FILES ${INCLUDES} DESTINATION include/kipr)
-install(FILES ${BSON_BIND_INCLUDES} DESTINATION include)
+install(FILES ${INCLUDES} DESTINATION include/aurora)
+install(FILES ${BSON_BIND_INCLUDES} DESTINATION include/aurora)
 
 if(WIN32)
   install(TARGETS aurora
