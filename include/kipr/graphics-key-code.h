@@ -132,14 +132,17 @@ extern "C" {
 }
 
 #include <functional>
+namespace std
+{
 template<>
-struct std::hash<KeyCode>
+struct hash<KeyCode>
 {
   size_t operator()(const KeyCode &code) const
   {
     return code;
   }
 };
+}
 #endif
 
 #endif
