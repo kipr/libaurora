@@ -135,7 +135,7 @@ extern "C" {
 template<>
 struct std::hash<KeyCode>
 {
-  size_t operator()(const KeyCode &code)
+  size_t operator()(const KeyCode &code) const
   {
     return code;
   }
