@@ -1,4 +1,5 @@
 %package aurora
+%noexceptions
 string format!
 int32 width!
 int32 height!
