@@ -76,7 +76,7 @@ int graphics_open(int width, int height)
 
   try
   {
-    g_graphics_buffer = unique_ptr(new RasterGraphicsBuffer(width, height));
+    g_graphics_buffer = unique_ptr<RasterGraphicsBuffer>(new RasterGraphicsBuffer(width, height));
   }
   catch(...)
   {
