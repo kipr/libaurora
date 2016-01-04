@@ -28,7 +28,7 @@ file(GLOB INCLUDES ${INCLUDE}/kipr/*.h ${INCLUDE}/kipr/*.hpp)
 file(GLOB SOURCES ${SRC}/*)
 
 if(NOT WIN32)
-  set(CXX_FLAGS "-std=c++1y")
+  set(CXX_FLAGS "-std=c++11")
 endif()
 
 set(CMAKE_C_FLAGS ${C_FLAGS})
